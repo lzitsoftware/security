@@ -18,7 +18,7 @@ import java.nio.file.AccessDeniedException;
 /**
  * Created by wenfan on 2019/12/30 20:53
  */
-//@RestControllerAdvice
+@RestControllerAdvice
 public class ExceptionHandlerAdvice {
 
     private Logger log = LoggerFactory.getLogger(getClass());

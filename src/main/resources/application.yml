@@ -64,7 +64,7 @@ mybatis:
 logging:
   level:
     club.wenfan.security.mapper : debug
-  file: youtube.log
+  file: security.log
   path: var\local\youtube\log 
 
 

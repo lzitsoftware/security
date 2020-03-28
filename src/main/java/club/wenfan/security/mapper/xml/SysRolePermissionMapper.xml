@@ -7,6 +7,24 @@
         -->
         <id column="roleId" property="roleid" jdbcType="INTEGER"/>
         <id column="permissionId" property="permissionid" jdbcType="INTEGER"/>
-        <result column="id" property="id" jdbcType="INTEGER"/>
     </resultMap>
+
+    <delete id="deletePermissionIdByRoleId">
+        DELETE FROM sys_role_permission
+        WHERE roleId = #{roleId}
+    </delete>
+
+    <insert id="updatePermissionByRoleId" >
+        insert into sys_role_permission(roleId, permissionId) values
+        <foreach collection="permissionIds" item="permissionId"
+                 separator=",">
+            (#{roleId}, #{permissionId})
+        </foreach>
+    </insert>
+
+
+    <delete id="deleteRelationShipByPermissionId">
+        DELETE FROM sys_role_permission
+        WHERE permissionId = #{permissionId}
+    </delete>
 </mapper>

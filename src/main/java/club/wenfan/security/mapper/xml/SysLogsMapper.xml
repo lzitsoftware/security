@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="club.wenfan.security.mapper.SysLogsMapper" >
+  <resultMap id="BaseResultMap" type="club.wenfan.security.entity.SysLogs" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="operate_user_id" property="operateUserId" jdbcType="INTEGER" />
+    <result column="operate_modul_name" property="operateModulName" jdbcType="VARCHAR" />
+    <result column="operate_result" property="operateResult" jdbcType="VARCHAR" />
+    <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="operate_browser" property="operateBrowser" jdbcType="VARCHAR" />
+    <result column="operate_ip" property="operateIp" jdbcType="VARCHAR" />
+    <result column="operate_OS" property="operateOs" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="operate_user_name" property="operateUserName" jdbcType="VARCHAR" />
+    <result column="operate_params_id" property="operateParamsId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="getSysLogByCustomCondition" resultMap="BaseResultMap">
+    SELECT *
+    FROM sys_logs
+    WHERE 1=1
+    <if test="operateUserName != '' and operateUserName != null" >
+     AND operate_user_name = #{operateUserName}
+    </if>
+    <if test="startDate != '' and startDate != null and endDate != '' and endDate != null">
+      AND  operate_time <![CDATA[>=]]> #{startDate}
+      AND  operate_time <![CDATA[<=]]> #{endDate}
+    </if>
+    <if test="status != null and status != ''">
+      AND operate_result = #{status}
+    </if>
+    ORDER BY operate_time DESC
+  </select>
+
+</mapper>

@@ -1,5 +1,7 @@
 package club.wenfan.security.exception;
 
+import club.wenfan.security.rest.RestMsg;
+
 /**
  * Created by wenfan on 2020/1/17 19:10
  */
@@ -13,6 +15,14 @@ public class SystemException extends RuntimeException {
 
     public SystemException() {
         super();
+    }
+
+
+
+    public SystemException(RestMsg restMsg){
+        super(restMsg.getMessage());
+        this.errorCode = restMsg.getCode().toString();
+        this.errorMsg = restMsg.getMessage();
     }
 
     public SystemException(String errorCode, String errorMsg, Throwable cause) {

@@ -1,5 +1,6 @@
 package club.wenfan.security.controller;
 
+import club.wenfan.security.annotation.SysLoger;
 import club.wenfan.security.dto.SysUserDto;
 import club.wenfan.security.entity.PageBean;
 import club.wenfan.security.entity.SysRole;
@@ -14,12 +15,14 @@ import club.wenfan.security.vo.EntityVO;
 import club.wenfan.security.vo.LoginUser;
 import club.wenfan.security.vo.ResponseInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.swagger.models.auth.In;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,21 +46,19 @@ public class SysUserController {
     @Autowired
     private SysRoleMapper sysRoleMapper;
 
+
     @PostMapping("/allUser")
-    public EntityVO getAllUsers(HttpServletRequest request) {
-        String strPageIndex = request.getParameter("pageIndex");
-        String strPageSize = request.getParameter("pageSize");
-        int recordsTotal = 0;
-        int recordsFiltered;
-        int pageIndex = Integer.parseInt(strPageIndex);
-        int pageSize = Integer.parseInt(strPageSize);
+    @PreAuthorize("hasAnyAuthority('sys:user:query')")
+    public EntityVO getAllUsers(@RequestParam("pageIndex") Integer pageIndex,@RequestParam("pageSize") Integer pageSize) {
+        int recordsTotal,recordsFiltered;
         PageBean<SysUser> page = userService.getSysUsersByPage(pageIndex, pageSize);
         recordsTotal = page.getTotalNum();
         recordsFiltered = recordsTotal;
         return new EntityVO(recordsTotal, recordsFiltered, page.getItems());
-
     }
 
+    @SysLoger(modulName = "删除用户")
+    @PreAuthorize("hasAnyAuthority('sys:user:delete')")
     @DeleteMapping("deleteUser/{id}")
     public ResponseInfo deleteUser(@PathVariable("id") String id) {
         userService.deleteSysUser(Integer.parseInt(id));
@@ -73,7 +74,8 @@ public class SysUserController {
         sysUserDto.setRoles(roles);
         return new ResponseInfo("200", "ok", sysUserDto);
     }
-
+    @SysLoger(modulName = "更新用户信息")
+    @PreAuthorize("hasAnyAuthority('sys:user:edit')")
     @PostMapping("updateUser/{id}")
     public ResponseInfo updateUser(@PathVariable("id") String id, HttpServletRequest request) {
         String username = request.getParameter("username");
@@ -93,6 +95,9 @@ public class SysUserController {
         return new ResponseInfo("200", "修改成功");
     }
 
+
+    @SysLoger(modulName = "添加用户")
+    @PreAuthorize("hasAnyAuthority('sys:user:add')")
     @PostMapping("/addUser")
     public ResponseInfo addSysUser(HttpServletRequest request) {
         String username = request.getParameter("username");
@@ -147,18 +152,6 @@ public class SysUserController {
     @GetMapping("/current")
     public LoginUser getCurrentLoginUser() {
         return SysUserUtil.getLoginUser();
-    }
-
-    @GetMapping("/admin")
-    @PreAuthorize("hasAnyAuthority('sys:admin:update, sys:admin:delete, sys:admin:query, sys:admin:add')")
-    public String getAdminPermission() {
-        return "admin";
-    }
-
-    @GetMapping("/admin1")
-    @PreAuthorize("hasAnyAuthority('a')")
-    public String getAdminPermission1() {
-        return "admin";
     }
 
 }

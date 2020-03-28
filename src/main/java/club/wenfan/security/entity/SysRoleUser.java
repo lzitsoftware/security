@@ -9,8 +9,10 @@
  */
 package club.wenfan.security.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
-import javax.persistence.*;
 
 @Table(name = "sys_role_user")
 public class SysRoleUser implements Serializable {

@@ -1,3 +1,9 @@
+<meta http-equiv="Cache-Control" content="max-age=7200" />
+<script>
+    $.ajaxSetup ({
+        cache: true
+    });
+</script>
 <style>
     table {
         table-layout: fixed;
@@ -24,13 +30,16 @@
                     <button class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal">
                         添加用户
                     </button>
+                    <button class="btn btn-default" id="refresh-user" type="button"><i
+                            class="fa fa-refresh"></i>
+                    </button>
                     <input type="text" class="form-control " name="searchText" style="width: 20%; float: right;"
                            placeholder="请输入用户名">
                     <span class="input-group-btn">
                                 <button class="btn btn-default" id="searchUser" type="button"><i
-                                        class="fa fa-search"></i>
+                            class="fa fa-search"></i>
                                 </button>
-                            </span>
+                    </span>
 
                 </div>
 
@@ -172,7 +181,7 @@
                                     <th>性别</th>
                                     <th>状态</th>
 
-                                    <th>操作</th>
+                                    <th width="15%">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -187,7 +196,7 @@
                                     <th>性别</th>
                                     <th>状态</th>
 
-                                    <th>操作</th>
+                                    <th width="30%">操作</th>
                                 </tr>
                                 </tfoot>
 
@@ -202,18 +211,16 @@
 
     </div>
     <!-- /. PAGE WRAPPER  -->
-    <!-- /. WRAPPER  -->
-    <!-- JS Scripts-->
-    <!-- jQuery Js -->
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <!-- Bootstrap Js -->
-    <script src="assets/js/bootstrap.min.js"></script>
-    <!-- DATA TABLE SCRIPTS -->
+
     <script src="assets/js/dataTables/jquery.dataTables.js"></script>
     <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
-    <script src="assets/js/user/user.js"></script>
-
-    <!-- Custom Js -->
-    <script src="assets/js/custom-scripts.js"></script>
+    <!--<script src="assets/js/user/user.js"></script>-->
+    <script type="text/javascript">
+        var now=new Date();
+        var str='<script src="assets/js/user/user.js?time='+now.getTime()+'" type="text/javascript"></scr'+'ipt>';
+        $("#page-wrapper").append(str);
+    </script>
+    <!--&lt;!&ndash; Custom Js &ndash;&gt;-->
+    <!--<script src="assets/js/custom-scripts.js"></script>-->
 
 </div>

@@ -9,8 +9,10 @@
  */
 package club.wenfan.security.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
-import javax.persistence.*;
 
 @Table(name = "sys_role_permission")
 public class SysRolePermission implements Serializable {
@@ -21,9 +23,6 @@ public class SysRolePermission implements Serializable {
     @Id
     @Column(name = "permissionId")
     private Integer permissionid;
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
     private static final long serialVersionUID = 1L;
 
@@ -55,17 +54,4 @@ public class SysRolePermission implements Serializable {
         this.permissionid = permissionid;
     }
 
-    /**
-     * @return id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
 }

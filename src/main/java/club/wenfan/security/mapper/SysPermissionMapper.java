@@ -25,4 +25,7 @@ public interface SysPermissionMapper extends Mapper<SysPermission> {
 
     List<SysPermission> listPermissionByRoleId(Integer roleId);
 
+    SysPermission getPermissionById(Integer permissionId);
+
+    int delPermissionById(Integer permissionId);
 }

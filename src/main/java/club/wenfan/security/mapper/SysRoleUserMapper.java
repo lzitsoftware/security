@@ -34,4 +34,5 @@ public interface SysRoleUserMapper extends Mapper<SysRoleUser> {
 
     boolean updateACertainRoleByUserId(@Param("userId") Integer userId, @Param("roleId") Integer roleId);
 
+    List<SysRoleUser> getRoleUserByRoleId(Integer roleId);
 }

@@ -32,15 +32,19 @@
 </div>
 
 </body>
-<script src="assets/js/jquery-2.1.1.min.js"></script>
+<script src="assets/js/jquery-1.10.2.js"></script>
+<script src="assets/js/getHost.js"></script>
 <script type="text/javascript">
+    $.ajaxSetup ({
+        cache: true
+    });
 
 
     var token = JSON.parse(sessionStorage.getItem('token'));
     if (token != null && token.trim().length != 0) {
         $.ajax({
             type: 'get',
-            url: 'localhost:8060/current?token=' + token,
+            url: 'http://'+host+'+"/sys/admin/user/current?token=' + token,
             success: function (data) {
                 location.href = '/index.html';
             },
@@ -67,12 +71,15 @@
         } else {
             $.ajax({
                 type: 'post',
-                url: 'http://localhost:8060/login',
+                url: 'http://'+host+'/login',
                 data: $("#login-form").serialize(),
                 success: function (data) {
                     //将返回信息同时存入sessionStorage，cookie
-                    sessionStorage.setItem('token', JSON.stringify(data.token));
-                    location.href = '/index.html';
+                    if(data.token != "" || data.token != null){
+                        sessionStorage.setItem('token', JSON.stringify(data.token));
+                        location.href = '/index.html';
+                    }
+
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     var msg = xhr.responseText;

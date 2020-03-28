@@ -20,7 +20,7 @@ public class PageBean<T> {
     // 总页数
     private Integer totalPage;
     // 开始索引
-    private Integer startIndex;
+    private Integer pageIndex;
     // 分页结果
     private List<T> items;
 
@@ -28,15 +28,27 @@ public class PageBean<T> {
         super();
     }
 
+
+    public PageBean(String pageIndex,String pageSize){
+        new PageBean(Integer.parseInt(pageIndex),Integer.parseInt(pageSize));
+    }
+    public PageBean(Integer pageIndex,Integer pageSize){
+        this.pageIndex = pageIndex;
+        this.pageSize = pageSize;
+    }
+
+
     public PageBean(Integer currentPage, Integer pageSize, Integer totalNum) {
         super();
         this.currentPage = currentPage;
         this.pageSize = pageSize;
         this.totalNum = totalNum;
         this.totalPage = (this.totalNum + this.pageSize - 1) / this.pageSize;
-        this.startIndex = (this.currentPage - 1) * this.pageSize;
+        this.pageIndex = (this.currentPage - 1) * this.pageSize;
         this.isMore = this.currentPage >= this.totalPage ? 0 : 1;
     }
+
+
 
     public Integer getCurrentPage() {
         return currentPage;
@@ -79,11 +91,11 @@ public class PageBean<T> {
     }
 
     public Integer getStartIndex() {
-        return startIndex;
+        return pageIndex;
     }
 
     public void setStartIndex(Integer startIndex) {
-        this.startIndex = startIndex;
+        this.pageIndex = startIndex;
     }
 
     public List<T> getItems() {

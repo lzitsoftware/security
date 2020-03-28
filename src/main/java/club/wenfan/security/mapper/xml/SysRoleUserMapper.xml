@@ -40,4 +40,11 @@
         </set>
         WHERE userId = #{userId}
     </update>
+
+    <select id="getRoleUserByRoleId" resultMap="BaseResultMap">
+        SELECT *
+        FROM
+        sys_role_user
+        WHERE roleId = #{roleId}
+    </select>
 </mapper>

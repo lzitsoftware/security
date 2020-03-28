@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
+    <meta http-equiv="Cache-Control" content="max-age=7200" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>后台管理系统</title>
     <!-- Bootstrap Styles-->
@@ -14,9 +15,9 @@
     <!--消息提示-->
     <link href="assets/css/toastr.min.css" rel="stylesheet"/>
     <!-- Google Fonts-->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <link href='assets/css/googleFont.css' rel='stylesheet' type='text/css'/>
     <!--datatables-->
-    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/dataTables/jquery.dataTables.css">
 </head>
 <script>
     var token = JSON.parse(sessionStorage.getItem('token'));
@@ -232,10 +233,10 @@
         <div class="sidebar-collapse">
             <ul class="nav" id="main-menu">
 
-                <!--<li>
-                    <a class="active-menu" href="index.html"><i class="fa fa-dashboard"></i>系统总预览</a>
+                <li class="active-menu">
+                    <a href="index.html" ><i class="fa fa-dashboard"></i>系统总预览</a>
                 </li>
-                <li>
+                <!--<li>
                     <a id="admin-video" ><i class="fa fa-upload"></i>视频管理</a>
                 </li>
                 <li>
@@ -270,8 +271,12 @@
 
     </nav>
 
+
+
+
     <!-- /. NAV SIDE  -->
     <div id="page-wrapper">
+
         <!-- /. PAGE INNER  -->
     </div>
 
@@ -283,8 +288,8 @@
 
 
 <!-- jQuery Js -->
-<script src="assets/js/jquery-1.10.2.js"></script>
-
+<script src="assets/js/jquery-2.1.1.min.js"></script>
+<script src="assets/js/getHost.js"></script>
 
 <!-- Bootstrap Js -->
 <script src="assets/js/bootstrap.min.js"></script>
@@ -297,23 +302,42 @@
 
 
 <script type="application/javascript">
+
+
+    $.ajaxSetup ({
+        cache: true //close AJAX cache
+    });
+
     var token = JSON.parse(sessionStorage.getItem('token'));
     // 系统菜单初始化请求
     $.ajax({
         type: 'get',
-        url: 'http://localhost:8060/sys/admin/user/current?token=' + token,
+        url: 'http://'+host+'/sys/admin/user/current?token=' + token,
         success: function (data) {
             sessionStorage.setItem('currentUser', JSON.stringify(data));
             var item = "";
             $.each(data.permissions, function (i, item1) {
                 if (item1.parentId == 0) {
+                    var hasChild = false;
+                    var down = "";   // 检测是否有子树，来添加下拉图标
+                    $.each(data.permissions, function (k, item3) {
+                        if (item3.parentId == item1.id && item3.type == false) {
+                            hasChild = true;
+                        }
+                    });
+
+                    if (hasChild) {
+                        down = "fa arrow";
+                    }
+
                     item += "<li>" +
-                        "<a href='#'><i class='fa fa-gears'></i>" + item1.name + "<span class='fa arrow'></span></a>";
+                        "<a onclick=loadPages('" + item1.href + "')><i class='"+item1.icon+"'></i>" + item1.name + "<span class='"+down+"'></span></a>";
+
                     $.each(data.permissions, function (j, item2) {
-                        if (item2.parentId == item1.id) {
+                        if (item2.parentId == item1.id && item2.type == false) {
                             item += "<ul class='nav nav-second-level'>" +
                                 "<li>" +
-                                "<a onclick=loadPages('" + item2.href + "')><i class='fa fa-gear'></i>" + item2.name + "</a>" +
+                                "<a onclick=loadPages('" + item2.href + "')><i class='"+item2.icon+"'></i>" + item2.name + "</a>" +
                                 "</li>" +
                                 "</ul>";
                         }
@@ -323,9 +347,8 @@
                 }
 
             });
-
             $('#main-menu').append(item);
-            $('#main-menu').metisMenu();
+            $("#main-menu").metisMenu();
 
         },
         error: function (xhr, textStatus, errorThrown) {
@@ -340,10 +363,24 @@
     });
 
     function loadPages(pageIndex) {
+        if (pageIndex == "" || pageIndex == null ){
+            return ;
+        }{
+            var now=new Date();
+            $("#page-wrapper").empty();
+            /* 点击前先移除之前所选*/
+            $("#page-wrapper").load("/assets" + pageIndex +"?time="+now.getTime());
+        }
 
-        /* 点击前先移除之前所选*/
-        $("#page-wrapper").load("/assets" + pageIndex);
     }
+    // 异步加载数据才能加载
+    $(document).on("click","#main-menu li",function(){
+        $("#main-menu li").removeClass("active-menu");
+        $(this).addClass("active-menu");
+    });
+
+
+
 </script>
 
 </body>

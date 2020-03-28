@@ -7,18 +7,33 @@ package club.wenfan.security.rest;
  */
 public enum RestMsg {
 
-    SUCCESS(1, "操作成功"),
+    SUCCESS(200, "操作成功"),
 
-    FAILURE(0, "操作失败"),
+    FAILURE(500, "操作失败"),
 
     OK(200, "OK"),
 
-    FAIL(500, "内部服务器错误"),
+    INNER_ERROR(500, "内部服务器错误"),
 
     BAD_REQUEST(400, "没有该资源"),
 
-    ERROR_PARAMETER(401, "错误参数");
+    ERROR_PARAMETER(401, "错误参数"),
 
+    LOGIN_TOKEN_NOT_EXIST(403, "登录过期或者失效"),
+
+    NOT_LOGIN(403, "请登录"),
+
+    EDIT_FAILURE(500,"修改失败"),
+
+    EDIT_SUCCESS(200,"修改成功"),
+
+    DEL_FAILURE(500,"删除失败"),
+
+    DEL_SUCCESS(200,"删除成功"),
+
+    HAVE_USER_FAILURE(500,"角色下有对应得用户"),
+
+    PASSWORD_INCORRECT(403,"密码错误");
 
     private Integer code;
 
@@ -40,8 +55,7 @@ public enum RestMsg {
         this.message = message;
     }
 
-    RestMsg(Integer code, String messgage) {
-
+    private RestMsg(Integer code, String messgage) {
         this.code = code;
         this.message = messgage;
     }

@@ -1,6 +1,7 @@
 package club.wenfan.security.vo;
 
-import javax.xml.transform.OutputKeys;
+import club.wenfan.security.rest.RestMsg;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,6 +24,24 @@ public class ResponseInfo<T> implements Serializable {
         this.data = data;
     }
 
+    public ResponseInfo(RestMsg msg, List<T> data) {
+        super();
+        this.code = msg.getCode().toString();
+        this.message = msg.getMessage();
+        this.data = data;
+    }
+
+    public ResponseInfo(RestMsg restMsg){
+        this.code = restMsg.getCode().toString();
+        this.message = restMsg.getMessage();
+    }
+
+    public ResponseInfo(RestMsg restMsg, Object returnObject){
+        this.code = restMsg.getCode().toString();
+        this.message = restMsg.getMessage();
+        this.object = returnObject;
+    }
+
     public ResponseInfo(String code, String message, Object data) {
         super();
         this.code = code;
@@ -36,17 +55,34 @@ public class ResponseInfo<T> implements Serializable {
         this.message = message;
     }
 
+
+
+
     public static ResponseInfo success() {
-        return new ResponseInfo("200", "操作成功");
+        return new ResponseInfo(RestMsg.SUCCESS);
     }
 
+
+
+
     public static ResponseInfo success(Object o) {
-        return new ResponseInfo("200", "操作成功", o);
+        return new ResponseInfo(RestMsg.SUCCESS, o);
+    }
+
+    public static ResponseInfo exception(String exceptionMsg){
+        return new ResponseInfo("500",exceptionMsg);
     }
 
     public static ResponseInfo fail() {
-        return new ResponseInfo("500", "操作失败");
+        return new ResponseInfo(RestMsg.FAILURE);
     }
+
+
+    public static ResponseInfo restMsg(RestMsg restMsg){
+        return new ResponseInfo(restMsg);
+    }
+
+
 
     public Object getObject() {
         return object;

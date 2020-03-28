@@ -11,10 +11,19 @@ package club.wenfan.security.mapper;
 
 
 import club.wenfan.security.entity.SysRolePermission;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.common.Mapper;
+
+import java.util.List;
 
 @Component
 @org.apache.ibatis.annotations.Mapper
 public interface SysRolePermissionMapper extends Mapper<SysRolePermission> {
+
+    int deletePermissionIdByRoleId(Integer roleId);
+
+    int updatePermissionByRoleId(@Param("roleId") Integer roleId, @Param("permissionIds") List<Integer> permissionIds);
+
+    int deleteRelationShipByPermissionId(Integer permissionId);
 }

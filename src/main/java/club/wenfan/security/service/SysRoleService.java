@@ -13,4 +13,6 @@ public interface SysRoleService {
 
     SysRoleAndItsPermission getRoleAndPerByRoleId(Integer roleId);
 
+    int deleteRoleAndPermission(Integer roleIds);
+
 }

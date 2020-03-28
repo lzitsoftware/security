@@ -11,9 +11,9 @@ package club.wenfan.security.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
 
 @Table(name = "sys_user")
 public class SysUser implements Serializable {
@@ -28,7 +28,8 @@ public class SysUser implements Serializable {
 
     @JsonIgnore
     private String openid;
-    @JsonIgnore
+
+    //@JsonIgnore
     private String password;
 
     private String nickname;
@@ -62,6 +63,8 @@ public class SysUser implements Serializable {
 
     @Column(name = "isExpired")
     private Boolean isExpired;
+
+
 
 
     /**

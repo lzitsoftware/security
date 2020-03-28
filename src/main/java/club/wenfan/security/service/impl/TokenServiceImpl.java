@@ -120,7 +120,7 @@ public class TokenServiceImpl implements TokenService {
     private Key getKeyInstance() {
         if (KEY == null) {
             synchronized (TokenServiceImpl.class) {
-                if (KEY == null) {// 双重锁
+                if (KEY == null) {  // 双重锁
                     byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(jwtSecret);
                     KEY = new SecretKeySpec(apiKeySecretBytes, SignatureAlgorithm.HS256.getJcaName());
                 }

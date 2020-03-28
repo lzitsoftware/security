@@ -9,8 +9,11 @@
  */
 package club.wenfan.security.entity;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
-import javax.persistence.*;
 
 @Table(name = "sys_permission")
 public class SysPermission implements Serializable {
@@ -29,6 +32,8 @@ public class SysPermission implements Serializable {
     private Integer sort;
 
     private Integer parentId;
+
+    private String icon;
 
     private static final long serialVersionUID = 1L;
 
@@ -122,5 +127,13 @@ public class SysPermission implements Serializable {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }
